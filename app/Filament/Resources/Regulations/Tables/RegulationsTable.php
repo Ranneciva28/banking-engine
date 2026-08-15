@@ -1,0 +1,2 @@
+<?php
+namespace App\Filament\Resources\Regulations\Tables; use Filament\Actions\EditAction; use Filament\Tables\Columns\TextColumn; use Filament\Tables\Table; class RegulationsTable {public static function configure(Table $table):Table{return $table->columns([TextColumn::make('regulation_code')->searchable(),TextColumn::make('authority')->badge(),TextColumn::make('title')->searchable()->limit(55),TextColumn::make('effective_from')->date(),TextColumn::make('status')->badge()])->recordActions([EditAction::make()]);}}

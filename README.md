@@ -1,50 +1,29 @@
-# Banking Engine V2
+# Banking Engine — Laravel Rebuild
 
-Static banking calculator website + secure database-driven Admin Console.
+Codebase target: Laravel 13 + Filament 5 + Livewire 4 + Supabase PostgreSQL.
 
-## Files
-- `index.html` — public calculator directory
-- `app.js` — dynamic calculator renderer + safe arithmetic parser
-- `admin.html` — Admin V2 interface
-- `admin.js` — Supabase Auth, RBAC CRUD, versioning, preview, publish, audit UI
-- `styles.css` — shared public/admin styling
+## Status
+- Existing Supabase banking schema retained.
+- Laravel-owned auth schema (`laravel.users`, sessions, reset tokens) already exists in Supabase.
+- Public calculator renderer included.
+- Dynamic field and formula model included.
+- Formula evaluation uses Symfony ExpressionLanguage, not `eval()`.
+- Filament V5 resource structure included for Segments, Calculators, Parameters, and Regulations.
+- Audit trigger in Supabase has been upgraded to read Laravel actor UUID from `app.user_id`, while retaining Supabase Auth fallback.
 
-## Supabase
-Project: `Banking Engine`
-Project ref: `pnisrktkkbzspolkfkag`
-Region: Singapore (`ap-southeast-1`)
+## Bootstrap in a normal development machine
+1. Create a fresh Laravel 13 skeleton, or run `composer install` in this repository once full Laravel framework scaffold files are present.
+2. Copy `.env.example` to `.env` and fill `DB_PASSWORD` from Supabase database credentials.
+3. `php artisan key:generate`
+4. Register `App\\Providers\\Filament\\AdminPanelProvider` if package discovery/scaffold does not do so automatically.
+5. `php artisan migrate` for Laravel framework tables that you choose to keep in the `laravel` schema.
+6. Create the first user in `laravel.users` with a bcrypt/argon password and `role=super_admin`.
+7. `php artisan serve`
+8. Public: `/` — Admin: `/admin`
 
-The browser uses a Supabase publishable key. This is intentional and safe only because write operations are protected by RLS. Never put a service-role/secret key in this static website.
+## Important
+This archive is an **application overlay/source package**, not a vendor-complete Laravel distribution. The current execution environment has PHP but cannot fetch Composer packages, so `vendor/`, `artisan`, Laravel framework bootstrap files and lockfiles are intentionally not fabricated.
 
-## First admin activation
-1. Open `admin.html` from a hosted site.
-2. Register an account or login with Supabase email/password.
-3. If the account has no admin role, the site shows the one-time activation form.
-4. Enter the activation code supplied separately with this build.
-5. The code is single-use and then disabled.
-
-## Admin V2 features
-- Email/password authentication
-- One-time ADMIN role activation
-- Segment manager
-- Category manager
-- Calculator creator/editor
-- Calculator version selector
-- Clone published/latest version into a draft
-- Dynamic field builder
-- Formula builder with safe-expression validation
-- Draft preview
-- Publish workflow with effective date
-- Automatic retirement of previous effective version
-- Database audit trail for admin changes
-- Supabase RLS protection
-
-## Current formula engine
-Supported arithmetic: `+ - * / ^`, parentheses, numbers, and previously-defined variables.
-The browser does not use `eval()` or `new Function()`.
-
-## Deployment
-This remains a static site: upload/replace the files on any static host (GitHub Pages, Netlify, Vercel static hosting, etc.). No build command is required.
-
-## Recommended next phase
-Admin V3: Parameters + Parameter Versioning UI, Regulations & SOP manager, document upload/storage, calculator-to-regulation linking, assessment rules, richer formula functions/conditions, Maker/Checker/Approver workflow, and calculation history.
+## Existing database
+Supabase project: Banking Engine (`pnisrktkkbzspolkfkag`).
+Do not expose PostgreSQL passwords or service-role secrets in frontend code.

@@ -1,0 +1,2 @@
+<?php
+namespace App\Filament\Resources\Parameters\Tables; use Filament\Actions\EditAction; use Filament\Tables\Columns\TextColumn; use Filament\Tables\Table; class ParametersTable {public static function configure(Table $table):Table{return $table->columns([TextColumn::make('name')->searchable(),TextColumn::make('parameter_key')->searchable(),TextColumn::make('data_type')->badge(),TextColumn::make('scope')->badge(),TextColumn::make('unit')])->recordActions([EditAction::make()]);}}
