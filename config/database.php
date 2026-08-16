@@ -5,11 +5,15 @@ return [
     'connections' => [
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
+
+            // Railway is currently unable to reach the Supabase direct
+            // connection because that endpoint resolves to IPv6. Use the
+            // Supavisor session pooler (IPv4, port 5432) instead.
+            'url' => env('SUPABASE_DB_URL'),
+            'host' => env('SUPABASE_DB_HOST', 'aws-0-ap-southeast-1.pooler.supabase.com'),
+            'port' => env('SUPABASE_DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'postgres'),
-            'username' => env('DB_USERNAME', 'postgres'),
+            'username' => env('SUPABASE_DB_USERNAME', 'postgres.pnisrktkkbzspolkfkag'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
