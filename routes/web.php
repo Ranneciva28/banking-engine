@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\AdminAccessController;
 use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\SetupController;
 use Illuminate\Support\Facades\Route;
@@ -9,3 +10,6 @@ Route::post('/calculator/{slug}', [CalculatorController::class,'calculate'])->na
 
 Route::get('/setup', [SetupController::class, 'show'])->name('setup.show');
 Route::post('/setup', [SetupController::class, 'store'])->name('setup.store');
+
+Route::get('/admin-access', [AdminAccessController::class, 'show'])->name('admin-access.show');
+Route::post('/admin-access', [AdminAccessController::class, 'store'])->name('admin-access.store');
